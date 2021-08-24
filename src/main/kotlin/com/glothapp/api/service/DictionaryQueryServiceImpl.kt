@@ -6,7 +6,6 @@ import com.glothapp.api.id.IdOfDictionary
 import com.glothapp.api.id.IdOfProfile
 import com.glothapp.api.repository.DictionaryRepository
 import org.springframework.stereotype.Component
-import java.lang.IllegalArgumentException
 
 @Component
 class DictionaryQueryServiceImpl(
@@ -29,8 +28,8 @@ class DictionaryQueryServiceImpl(
     ): List<DictionaryRecordWithWords> {
         val records = dictionaryRepository.listDictionaryRecords(profileId, dictionaryId)
         val recordToWordsMap = dictionaryRepository.listWordsByRecordIds(records.map { it.id }.toSet())
-        return records.map {
-            DictionaryRecordWithWords(it.id, it.lastUpdatedDate, recordToWordsMap[it.id] ?: listOf())
-        }
+        return records
+            .map { DictionaryRecordWithWords(it.id, it.lastUpdatedDate, recordToWordsMap[it.id] ?: listOf()) }
+            .filter { it.words.isNotEmpty() }
     }
 }
