@@ -17,8 +17,8 @@ class ListDictionaryRecordsHandler(private val dictionaryQueryService: Dictionar
     fun listDictionaryRecords(
         @User profileId: IdOfProfile,
         @RequestParam("dictionaryId") dictionaryId: IdOfDictionary
-    ): List<DictionaryRecordForApi> {
-        return dictionaryQueryService.listDictionaryRecords(profileId, dictionaryId)
+    ): Response {
+        val recordsForApi = dictionaryQueryService.listDictionaryRecords(profileId, dictionaryId)
             .map {
                 DictionaryRecordForApi(
                     id = it.id,
@@ -26,5 +26,8 @@ class ListDictionaryRecordsHandler(private val dictionaryQueryService: Dictionar
                     lastUpdate = it.lastUpdatedDate
                 )
             }
+        return Response(recordsForApi)
     }
+
+    data class Response(val records: List<DictionaryRecordForApi>)
 }

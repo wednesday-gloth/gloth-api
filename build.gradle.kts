@@ -13,7 +13,12 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
-    maven("https://maven.pkg.github.com/sudzhaev/spring-boot-starter-auth")
+}
+
+allprojects {
+    repositories {
+        maven("https://jitpack.io")
+    }
 }
 
 dependencies {
@@ -25,7 +30,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
     implementation("javax.validation:validation-api:2.0.1.Final")
-    implementation("com.sudzhaev:spring-boot-starter-auth:0.1.0")
+    implementation("com.github.sudzhaev:spring-boot-starter-auth:0.1.0")
     runtimeOnly("org.postgresql:postgresql:42.2.23")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

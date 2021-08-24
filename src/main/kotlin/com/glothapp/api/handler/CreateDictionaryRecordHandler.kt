@@ -20,21 +20,23 @@ class CreateDictionaryRecordHandler(private val dictionaryEditService: Dictionar
     @PostMapping("/create_dictionary_record")
     fun createDictionaryRecord(
         @User profileId: IdOfProfile,
-        @RequestBody @Valid request: CreateDictionaryRecordRequest
-    ): DictionaryRecordForApi {
+        @RequestBody @Valid request: Request
+    ): Response {
         val record = dictionaryEditService.createDictionaryRecord(profileId, request.dictionaryId)
         val word = dictionaryEditService.createWord(
             profileId,
             WordToCreate(record.id, request.word.content, request.word.lang.domainValue)
         )
-        return DictionaryRecordForApi(
-            id = record.id,
-            words = listOf(WordForApi.from(word)),
-            lastUpdate = record.lastUpdatedDate
+        return Response(
+            DictionaryRecordForApi(
+                id = record.id,
+                words = listOf(WordForApi.from(word)),
+                lastUpdate = record.lastUpdatedDate
+            )
         )
     }
 
-    data class CreateDictionaryRecordRequest(
+    data class Request(
         val dictionaryId: IdOfDictionary,
         val word: Word
     ) {
@@ -45,4 +47,5 @@ class CreateDictionaryRecordHandler(private val dictionaryEditService: Dictionar
         )
     }
 
+    data class Response(val record: DictionaryRecordForApi)
 }

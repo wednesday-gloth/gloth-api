@@ -19,16 +19,18 @@ class UpdateWordHandler(private val dictionaryEditService: DictionaryEditService
     fun updateWord(
         @User profileId: IdOfProfile,
         @RequestBody @Valid request: UpdateWordRequest
-    ): WordForApi {
+    ): Response {
         val updatedWord = dictionaryEditService.updateWord(
             profileId,
             WordToUpdate(request.id, request.content.trim())
         )
-        return WordForApi.from(updatedWord)
+        return Response(WordForApi.from(updatedWord))
     }
 
     data class UpdateWordRequest(
         val id: IdOfWord,
         @field:NotBlank val content: String
     )
+
+    data class Response(val word: WordForApi)
 }

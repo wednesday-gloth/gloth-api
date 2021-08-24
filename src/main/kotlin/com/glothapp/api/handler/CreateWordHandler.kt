@@ -19,8 +19,8 @@ class CreateWordHandler(private val dictionaryEditService: DictionaryEditService
     @PostMapping("/create_word")
     fun createWord(
         @User profileId: IdOfProfile,
-        @RequestBody @Valid request: CreateWordRequest
-    ): WordForApi {
+        @RequestBody @Valid request: Request
+    ): Response {
         val word = dictionaryEditService.createWord(
             profileId,
             WordToCreate(
@@ -29,12 +29,14 @@ class CreateWordHandler(private val dictionaryEditService: DictionaryEditService
                 request.lang.domainValue
             )
         )
-        return WordForApi.from(word)
+        return Response(WordForApi.from(word))
     }
 
-    data class CreateWordRequest(
+    data class Request(
         val recordId: IdOfDictionaryRecord,
         @field:NotBlank val content: String,
         val lang: LanguageDirectionForApi
     )
+
+    data class Response(val word: WordForApi)
 }

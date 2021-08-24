@@ -18,18 +18,20 @@ class CreateDictionaryHandler(private val dictionaryEditService: DictionaryEditS
     @PostMapping("/create_dictionary")
     fun createDictionary(
         @User profileId: IdOfProfile,
-        @RequestBody @Valid request: CreateDictionaryRequest
-    ): DictionaryForApi {
+        @RequestBody @Valid request: Request
+    ): Response {
         val dictionaryToCreate = DictionaryToCreate(
             sourceLanguage = LanguageCode.from(request.sourceLang),
             targetLanguage = LanguageCode.from(request.targetLang)
         )
         val dictionary = dictionaryEditService.createDictionary(profileId, dictionaryToCreate)
-        return DictionaryForApi.from(dictionary)
+        return Response(DictionaryForApi.from(dictionary))
     }
 
-    data class CreateDictionaryRequest(
+    data class Request(
         @field:NotBlank val sourceLang: String,
         @field:NotBlank val targetLang: String
     )
+
+    data class Response(val dictionary: DictionaryForApi)
 }

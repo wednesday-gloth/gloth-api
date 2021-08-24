@@ -12,7 +12,9 @@ class ListLanguagesHandler(private val languageQueryService: LanguageQueryServic
     @Unauthorized
     @GetMapping("/list_languages")
     // TODO: can we pass device locale as a parameter?
-    fun listLanguages(): List<LanguageForApi> {
-        return languageQueryService.listAvailableLanguages().map(LanguageForApi::from)
+    fun listLanguages(): Response {
+        return Response(languageQueryService.listAvailableLanguages().map(LanguageForApi::from))
     }
+
+    data class Response(val languages: List<LanguageForApi>)
 }

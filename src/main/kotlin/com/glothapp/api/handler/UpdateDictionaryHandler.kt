@@ -18,8 +18,8 @@ class UpdateDictionaryHandler(private val dictionaryEditService: DictionaryEditS
     @PostMapping("/update_dictionary")
     fun updateDictionary(
         @User profileId: IdOfProfile,
-        @RequestBody @Valid request: UpdateDictionaryRequest
-    ): DictionaryForApi {
+        @RequestBody @Valid request: Request
+    ): Response {
         val dictionary = dictionaryEditService.updateDictionary(
             profileId, DictionaryToUpdate(
                 id = request.id,
@@ -27,12 +27,14 @@ class UpdateDictionaryHandler(private val dictionaryEditService: DictionaryEditS
                 targetLanguage = LanguageCode.from(request.targetLang)
             )
         )
-        return DictionaryForApi.from(dictionary)
+        return Response(DictionaryForApi.from(dictionary))
     }
 
-    data class UpdateDictionaryRequest(
+    data class Request(
         val id: IdOfDictionary,
         val sourceLang: String,
         val targetLang: String
     )
+
+    data class Response(val dictionary: DictionaryForApi)
 }

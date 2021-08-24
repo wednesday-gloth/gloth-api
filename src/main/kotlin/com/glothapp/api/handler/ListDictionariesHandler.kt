@@ -17,17 +17,17 @@ class ListDictionariesHandler(
 
     @GetMapping("/list_dictionaries")
     // TODO: can we pass device locale as a parameter?
-    fun listDictionaries(@User profileId: IdOfProfile): ListDictionariesResponse {
+    fun listDictionaries(@User profileId: IdOfProfile): Response {
         val dictionaries = dictionaryQueryService.listDictionaries(profileId)
         val languageCodes = dictionaries.flatMap { setOf(it.sourceLanguage, it.targetLanguage) }.toSet()
         val languages = languageQueryService.listLanguages(languageCodes)
-        return ListDictionariesResponse(
+        return Response(
             dictionaries.map(DictionaryForApi::from),
             languages.map(LanguageForApi::from)
         )
     }
 
-    data class ListDictionariesResponse(
+    data class Response(
         val dictionaries: List<DictionaryForApi>,
         val languages: List<LanguageForApi>
     )

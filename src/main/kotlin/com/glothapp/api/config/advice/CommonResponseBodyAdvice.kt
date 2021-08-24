@@ -24,7 +24,7 @@ class CommonResponseBodyAdvice(private val trackingIdService: TrackingIdService)
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse
-    ): Any? {
+    ): Any {
         return ApiCommonResponse(
             trackingId = trackingIdService.getTrackingId(),
             data = body ?: emptyMap<String, Any>()
