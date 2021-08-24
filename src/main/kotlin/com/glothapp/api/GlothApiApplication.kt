@@ -13,6 +13,8 @@ import java.util.*
  * 2. Common MyBatis TypeHandlers for ids
  * 3. Common jackson ids handling
  * 4. IdSetTypeHandler is weird. This about handling collections in MyBatis
+ * 5. Database timeouts
+ * 6. Tomcat timeouts
  */
 @SpringBootApplication
 class GlothApiApplication
