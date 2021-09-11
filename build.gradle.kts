@@ -46,16 +46,14 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.jar {
+    enabled = false
+}
+
 buildscript {
     repositories {
         maven {
             url = uri("https://plugins.gradle.org/m2/")
         }
-    }
-}
-
-tasks.jar {
-    manifest {
-        attributes(mapOf("Main-Class" to "com.glothapp.api.GlothApiApplicationKt"))
     }
 }
