@@ -53,3 +53,9 @@ buildscript {
         }
     }
 }
+
+tasks.jar {
+    manifest {
+        attributes(mapOf("Main-Class" to "com.glothapp.api.GlothApiApplicationKt"))
+    }
+}

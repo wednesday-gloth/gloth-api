@@ -15,6 +15,7 @@ import java.util.*
  * 4. IdSetTypeHandler is weird. This about handling collections in MyBatis
  * 5. Database timeouts
  * 6. Tomcat timeouts
+ * 7. Fix DB schema. Add indices, remove timezone from profile
  */
 @SpringBootApplication
 class GlothApiApplication

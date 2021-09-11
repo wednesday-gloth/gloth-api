@@ -4,6 +4,7 @@ import com.glothapp.api.util.logger
 import org.slf4j.MDC
 import org.springframework.stereotype.Component
 import java.util.*
+import kotlin.random.Random
 
 @Component
 class TrackingIdServiceImpl : TrackingIdService {
@@ -12,7 +13,7 @@ class TrackingIdServiceImpl : TrackingIdService {
     private val trackingIdKey = "trackingId";
 
     override fun initTrackingId(): String {
-        val trackingId = UUID.randomUUID().toString()
+        val trackingId = generateRandomString()
         MDC.put(trackingIdKey, trackingId)
         return trackingId
     }
@@ -29,5 +30,13 @@ class TrackingIdServiceImpl : TrackingIdService {
 
     override fun clearTrackingId() {
         MDC.remove(trackingIdKey)
+    }
+
+    private fun generateRandomString(): String {
+        return generateSequence { Random.nextInt('0'.code, 'z'.code) }
+            .filter { i -> (i <= '9'.code || i >= 'A'.code) && (i <= 'Z'.code || i >= 'a'.code) }
+            .take(12)
+            .map { it.toChar() }
+            .joinToString(separator = "")
     }
 }
